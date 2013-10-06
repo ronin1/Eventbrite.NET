@@ -13,8 +13,6 @@ namespace EventbriteNET.Xml
         {
             this.Validate(xmlString);
 
-            var stringReader = new StringReader(xmlString);
-
             var toReturn = new Ticket(this.Context);
 
             var doc = new XmlDocument();
@@ -25,7 +23,8 @@ namespace EventbriteNET.Xml
             toReturn.Description = doc.GetElementsByTagName("description")[0].InnerText;
             toReturn.Type = (TicketType)Int32.Parse(doc.GetElementsByTagName("type")[0].InnerText);
             toReturn.Currency = doc.GetElementsByTagName("currency")[0].InnerText;
-            toReturn.EndDateTime = DateTime.Parse(doc.GetElementsByTagName("end_date")[0].InnerText);
+            if (doc.GetElementsByTagName("end_date")[0]!=null)
+                toReturn.EndDateTime = DateTime.Parse(doc.GetElementsByTagName("end_date")[0].InnerText);
             
             
 
