@@ -61,6 +61,7 @@
     <Compile Include="Xml\TicketBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="HttpApi\HttpApi.cd" />
     <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
