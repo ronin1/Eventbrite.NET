@@ -8,6 +8,9 @@ namespace EventbriteNET.HttpApi
 {
     public class RequestBase
     {
+		public event Action<RequestBase, HttpWebResponse> OnBeforeRequestProcess;
+		public event Action<RequestBase, WebException> OnBeforeRequestException;
+
         protected EventbriteContext Context;
 
         private Dictionary<string, string> GetParameters;
@@ -76,12 +79,34 @@ namespace EventbriteNET.HttpApi
 			{
 				try
 				{
+					if (OnBeforeRequestProcess != null)
+					{
+						try
+						{
+							OnBeforeRequestProcess(this, response);
+						}
+						catch (Exception)
+						{
+							throw;
+						}
+					}
 					using (Stream stream = response.GetResponseStream())
 					using (StreamReader sr = new StreamReader(stream))
 						return sr.ReadToEnd();
 				}
 				catch (WebException wex)
 				{
+					if (OnBeforeRequestException != null)
+					{
+						try
+						{
+							OnBeforeRequestException(this, wex);
+						}
+						catch (Exception)
+						{
+							throw;
+						}
+					}
 					using (Stream stream = wex.Response.GetResponseStream())
 					using (StreamReader sr = new StreamReader(stream))
 						return sr.ReadToEnd();
