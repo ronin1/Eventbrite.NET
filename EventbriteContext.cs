@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using EventbriteNET.Entities;
 using EventbriteNET.HttpApi;
 
@@ -29,5 +30,10 @@ namespace EventbriteNET
         {
             return new EventRequest(id, this).GetResponse();
         }
+
+		public EventSearchResponse SearchEvents(EventSearchFilter f)
+		{
+			return new EventSearchRequest(f, this).GetResponse();
+		}
     }
 }
